@@ -1,9 +1,16 @@
 import React from "react";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import SignalCellularIcon from "@material-ui/icons/SignalCellularAlt";
+import InfoOutlineIcon from "@material-ui/icons/InfoOutlined";
+import CallIcon from "@material-ui/icons/Call";
+import MicIcon from "@material-ui/icons/Mic";
+import HeadsetIcon from "@material-ui/icons/Headset";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import "./Sidebar.css";
 import SidebarChannel from "./SidebarChannel";
+import { Avatar } from "@material-ui/core";
 
 function Sidebar() {
   return (
@@ -20,9 +27,35 @@ function Sidebar() {
           </div>
           <AddIcon className="sidebar__addChannel" />
         </div>
+        <div className="sidebar__channelsList">
+          <SidebarChannel />
+          <SidebarChannel />
+          <SidebarChannel />
+          <SidebarChannel />
+        </div>
       </div>
-      <div className="sidebar__channelsList">
-        <SidebarChannel />
+      <div className="sidebar__voice">
+        <SignalCellularIcon className="sidebar__voiceIcon" fontSize="large" />
+        <div className="sidebar__voiceInfo">
+          <h3>Voice Connected</h3>
+          <p>Stream</p>
+        </div>
+        <div className="sidebar__voiceIcons">
+          <InfoOutlineIcon />
+          <CallIcon />
+        </div>
+      </div>
+      <div className="sidebar__profile">
+        <Avatar />
+        <div className="sidebar__profileInfo">
+          <h3>Patrick Wehbe</h3>
+          <p>#ThisIsMyId</p>
+        </div>
+        <div className="sidebar__profileIcons">
+          <MicIcon />
+          <HeadsetIcon />
+          <SettingsIcon />
+        </div>
       </div>
     </div>
   );
