@@ -42,7 +42,7 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar__top">
-        <h3>Room Name</h3>
+        <h3>Server Name</h3>
         <ExpandMoreIcon />
       </div>
       <div className="sidebar__channels">
@@ -54,8 +54,12 @@ function Sidebar() {
           <AddIcon onClick={handleAddChannel} className="sidebar__addChannel" />
         </div>
         <div className="sidebar__channelsList">
-          {channels.map((channel) => (
-            <SidebarChannel />
+          {channels.map(({ id, channel }) => (
+            <SidebarChannel
+              key={id}
+              id={id}
+              channelName={channel.channelName}
+            />
           ))}
         </div>
       </div>
@@ -74,7 +78,7 @@ function Sidebar() {
         <Avatar onClick={() => auth.signOut()} src={user.photo} />
         <div className="sidebar__profileInfo">
           <h3>{user.displayName}</h3>
-          <p>{user.uid.substring(0, 5)}</p>
+          <p>{`#${user.uid.substring(0, 5)}`}</p>
         </div>
         <div className="sidebar__profileIcons">
           <MicIcon />

@@ -33,7 +33,7 @@
   flex: 1;
 }
 .chat__inputButton {
-  display: none;
+  visibility: hidden;
 }
 .chat__inputIcons > .MuiSvgIcon-root {
   padding: 5px;
