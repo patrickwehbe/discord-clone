@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SignalCellularIcon from "@material-ui/icons/SignalCellularAlt";
@@ -11,8 +11,34 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import "./Sidebar.css";
 import SidebarChannel from "./SidebarChannel";
 import { Avatar } from "@material-ui/core";
+import { selectUser } from "./features/userSlice";
+import { useSelector } from "react-redux";
+import db, { auth } from "./Firebase";
 
 function Sidebar() {
+  const user = useSelector(selectUser);
+  const [channels, setChannels] = useState([]);
+  const handleAddChannel = () => {
+    const channelName = prompt("Enter a new Channel name");
+
+    if (channelName) {
+      db.collection("channels").add({
+        channelName: channelName,
+      });
+    }
+  };
+
+  useEffect(() => {
+    db.collection("channels").onSnapshot((snapshot) =>
+      setChannels(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          channel: doc.data(),
+        }))
+      )
+    );
+  }, []);
+
   return (
     <div className="sidebar">
       <div className="sidebar__top">
@@ -25,13 +51,12 @@ function Sidebar() {
             <ExpandMoreIcon />
             <h4>Text Channels</h4>
           </div>
-          <AddIcon className="sidebar__addChannel" />
+          <AddIcon onClick={handleAddChannel} className="sidebar__addChannel" />
         </div>
         <div className="sidebar__channelsList">
-          <SidebarChannel />
-          <SidebarChannel />
-          <SidebarChannel />
-          <SidebarChannel />
+          {channels.map((channel) => (
+            <SidebarChannel />
+          ))}
         </div>
       </div>
       <div className="sidebar__voice">
@@ -46,10 +71,10 @@ function Sidebar() {
         </div>
       </div>
       <div className="sidebar__profile">
-        <Avatar />
+        <Avatar onClick={() => auth.signOut()} src={user.photo} />
         <div className="sidebar__profileInfo">
-          <h3>Patrick Wehbe</h3>
-          <p>#ThisIsMyId</p>
+          <h3>{user.displayName}</h3>
+          <p>{user.uid.substring(0, 5)}</p>
         </div>
         <div className="sidebar__profileIcons">
           <MicIcon />
